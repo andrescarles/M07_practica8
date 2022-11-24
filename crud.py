@@ -20,10 +20,16 @@ def select():
 
 
 def insert(a,b):
-    cursor = conn.cursor()
-    postgres_insert_query = """ INSERT INTO alumnos (nombre, apellido) VALUES (%s,%s)"""
-    record_to_insert = (a, b)
-    cursor.execute(postgres_insert_query, record_to_insert)
+    sql = """ INSERT INTO alumnos (nombre, apellido) VALUES (%s,%s)"""
+    values = (a, b)
+    cursor.execute(sql, values)
+    conn.commit()
+    select()
+
+def update(a,b):
+    sql = """ consulta """
+    values = (a, b)
+    cursor.execute(sql, values)
     conn.commit()
     select()
 
