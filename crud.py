@@ -7,6 +7,14 @@ cursor = conn.cursor()
 #tanto conn como cursor deben cerrar su conexion
 #nosotros hemos usado una funcion para cerrar estas conexiones a la bd
 
+#Funcion Create
+def create():
+    try:
+        cursor.execute("CREATE DATABASE mydatabase") # creamos la base de datos
+        cursor.execute("CREATE TABLE alumnos (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(50), apellido VARCHAR(50))")
+        # creamos la tabla y definimos la key
+    except:
+        finalizarConexion()
 
 #Funcion select
 def select():
@@ -29,18 +37,18 @@ def select():
         #en caso de error cortamos conexion
         finalizarConexion()
 
-def insert (x,y):
-        try:
-            sql = """ INSERT INTO alumnos (nombre, apellido) VALUES (%s,%s)"""
-            valores = (x, y)
-            cursor.execute(sql, valores)
-            conn.commit()
-            select()
-        except:
-            # tanto el insert como el update alteran la base de datos, si algo sale mal se hace un rollback
-            cursor.rollback()
-            finalizarConexion()
-
+#funcion insert
+def insert(a,b):
+    try:
+        sql = """ INSERT INTO alumnos (nombre, apellido) VALUES (%s,%s)"""
+        values = (a, b)
+        cursor.execute(sql, values)
+        conn.commit()
+        select()
+    except:
+        #tanto el insert como el update alteran la base de datos, si algo sale mal se hace un rollback
+        cursor.rollback()
+        finalizarConexion()
 
 def updateName(a,b):
     try:
@@ -64,7 +72,19 @@ def updateSurname(a,b):
     except:
         cursor.rollback()
         finalizarConexion()
-        
+
+#Funcio delete
+def delete(id):
+    try:
+        sql = """ DELETE FROM alumnos WHERE id = (%s) """
+        value = (id)
+        cursor.execute(sql, value)
+        conn.commit()
+        select()
+    except:
+        finalizarConexion()
+        cursor.rollback()
+
 #funcion para cerrar la conexion
 def finalizarConexion():
     cursor.close()
