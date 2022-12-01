@@ -29,20 +29,19 @@ def select():
         #en caso de error cortamos conexion
         finalizarConexion()
 
-#funcion insert
-def insert(a,b):
-    try:
-        sql = """ INSERT INTO alumnos (nombre, apellido) VALUES (%s,%s)"""
-        values = (a, b)
-        cursor.execute(sql, values)
-        conn.commit()
-        select()
-    except:
-        #tanto el insert como el update alteran la base de datos, si algo sale mal se hace un rollback
-        cursor.rollback()
-        finalizarConexion()
+def insert (x,y):
+        try:
+            sql = """ INSERT INTO alumnos (nombre, apellido) VALUES (%s,%s)"""
+            valores = (x, y)
+            cursor.execute(sql, valores)
+            conn.commit()
+            select()
+        except:
+            # tanto el insert como el update alteran la base de datos, si algo sale mal se hace un rollback
+            cursor.rollback()
+            finalizarConexion()
 
-#funcion update nombre ( necesita nombre y la id)
+
 def updateName(a,b):
     try:
         sql = """ UPDATE alumnos SET nombre=(%s) WHERE id = (%s) """
@@ -70,15 +69,3 @@ def updateSurname(a,b):
 def finalizarConexion():
     cursor.close()
     conn.close()
-
-#Funcio delete
-def delete(id):
-    try:
-        sql = """ DELETE FROM alumnos WHERE id = (%s) """
-        value = (id)
-        cursor.execute(sql, value)
-        conn.commit()
-        select()
-    except:
-        finalizarConexion()
-        cursor.rollback()
