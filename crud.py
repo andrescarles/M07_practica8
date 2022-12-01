@@ -64,7 +64,19 @@ def updateSurname(a,b):
     except:
         cursor.rollback()
         finalizarConexion()
-        
+
+#Funcio delete
+def delete(id):
+    try:
+        sql = """ DELETE FROM alumnos WHERE id = (%s) """
+        value = (id)
+        cursor.execute(sql, value)
+        conn.commit()
+        select()
+    except:
+        finalizarConexion()
+        cursor.rollback()
+
 #funcion para cerrar la conexion
 def finalizarConexion():
     cursor.close()
